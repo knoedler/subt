@@ -26,6 +26,15 @@
 <%
   # Needed for adding marsupial robots
   require "rexml/document"
+  installDir = `rospack find subt_ign`.chomp
+  begin
+    load "#{installDir}/launch/world_map.rb"
+  rescue LoadError
+    raise "Unable to find #{installDir}/launch/world_map.rb"
+  end
+
+  puts "Maps this"
+  puts $worldNameMap
 %>
 
 <%
@@ -291,7 +300,7 @@
           !$worldName.include?('practice') %>
       <world_file>cave_circuit/<%= worldNumber %>/<%= $worldName %>.sdf</world_file>
     <% else %>
-      <world_file><%= $worldName %>.sdf</world_file>
+      <world_file><%= $worldNameMap[$worldName] %></world_file>
     <% end %>
     <%if defined?(updateRate) && updateRate != nil && !updateRate.empty?%>
     <update_rate><%= updateRate %></update_rate>
