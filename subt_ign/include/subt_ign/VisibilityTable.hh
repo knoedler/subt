@@ -165,8 +165,8 @@ namespace subt
     /// \brief Generate the visibility LUT in disk.
     private: void WriteOutputFile();
 
-    /// \brief Calculate the gratest distance between a pair of breadcrumbs.
-    /// \param[in] __visibilityInfoWithRelays The visibility information known
+    /// \brief Calculate the greatest distance between a pair of breadcrumbs.
+    /// \param[in] _visibilityInfoWithRelays The visibility information known
     /// at the moment.
     /// \param[in] _relaySequence The sequence of breadcrumbs to traverse.
     /// \param[in] _to Destination tile.

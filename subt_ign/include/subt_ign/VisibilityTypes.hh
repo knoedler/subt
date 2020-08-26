@@ -46,9 +46,9 @@ class VisibilityCost
   /// should be ignored if route is empty (no breadcrumbs).
   public: ignition::math::Vector3d posLastBreadcrumb;
 
-  /// \brief A path source to destination can traverse 0 or more breadcrumbs.
+  /// \brief A path from source to destination can traverse 0-N breadcrumbs.
   /// This field stores the maximum distance between a pair of breadcrumbs.
-  /// E.g.: source->A->B->C->destination. Let's assume that the next
+  /// E.g.: source->A->B->C->destination. Let's assume the next
   /// Euclidean distances: dist(A, B): 2; dist(B, C): 3. This field stores a 3.
   public: double greatestDistanceSingleHop;
 };
