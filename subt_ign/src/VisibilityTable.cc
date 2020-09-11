@@ -208,14 +208,26 @@ const std::map<std::tuple<int32_t, int32_t, int32_t>, uint64_t>
 //////////////////////////////////////////////////
 uint64_t VisibilityTable::Index(const ignition::math::Vector3d &_position) const
 {
+  std::vector<uint64_t> result;
   for (auto const segment : this->worldSegments)
   {
     const ignition::math::AxisAlignedBox &box = segment.first;
     if (box.Contains(_position))
-      return segment.second;
+      result.push_back(segment.second);
   }
 
-  return std::numeric_limits<uint64_t>::max();
+  if (result.empty())
+    return std::numeric_limits<uint64_t>::max();
+
+  if (result.size() > 1)
+  {
+    std::cerr << _position << " overlaps with tiles ";
+    for (auto const &id : result)
+      std::cerr << "[" << id << "], ";
+    std::cerr << std::endl;
+  }
+
+  return result.front();
 }
 
 //////////////////////////////////////////////////
@@ -617,6 +629,12 @@ int main(int argc, char **argv)
 
   VisibilityTable visibilityTable;
   visibilityTable.Load(argv[1], true);
+
+  // Uncomment for checking visibility table information. E.g.:
+
+  // auto tileId = visibilityTable.Index({90, 2.42, 0.26});
+  // auto tileId = visibilityTable.Index({29.59, 2.36, 0.77});
+  // std::cout << "Tile id: " << tileId << std::endl;
 
   // Add relays. E.g.:
   // visibilityTable.PopulateVisibilityInfo(
