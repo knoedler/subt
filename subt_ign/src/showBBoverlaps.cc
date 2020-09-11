@@ -19,13 +19,16 @@
 //   1. You need to generate the list of overlapping points:
 //     ign launch visibility.ign worldName:=simple_cave_02 2> log
 //
-//   2. Filter the log and leave just the "<x> <y> <z>" per line.
+//   2. Open the log and remove any lines that don't look like:
+//   "<x> <y> <z> overlaps with tiles ...""
+//
+//   3. Filter the log and leave just the "<x> <y> <z>" per line.
 //     cat log | cut -d" " -f1,2,3 > simple_cave_02_overlaps.txt"
 //
-//   3. Load the world:
+//   4. Load the world:
 //     ign launch -v 4 cave_circuit.ign worldName:=simple_cave_02 robotName1:=X1 robotConfig1:=X1_SENSOR_CONFIG_8
 //
-//   4. Run this overlap visualizer:
+//   5. Run this overlap visualizer:
 //     ./install/bin/show_bb_overlaps simple_cave_02_overlaps.txt
 
 #include <iostream>
