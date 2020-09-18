@@ -464,12 +464,48 @@ double VisibilityTable::MaxDistanceSingleHop(
   auto firstBreadcrumb = _relaySequence.at(0);
   auto secondBreadcrumb = _relaySequence.at(1);
 
-  // We only consider the first breadcrumb stored in the tile.
+  double distanceFirstHop = std::numeric_limits<double>::max();
+
+  /*// We only consider the first breadcrumb stored in the tile.
   auto posFirstBreadcrumb = this->breadcrumbs.at(firstBreadcrumb).front();
   auto posSecondBreadcrumb = this->breadcrumbs.at(secondBreadcrumb).front();
 
   // Distance between the first and second breadcrumbs.
-  double distanceFirstHop = posFirstBreadcrumb.Distance(posSecondBreadcrumb);
+  double distanceFirstHop = posFirstBreadcrumb.Distance(posSecondBreadcrumb);*/
+  
+  // The smallest hop between all breadcrumbs in two distinct tiles
+  for(int i=0; i<int(this->breadcrumbs.at(firstBreadcrumb).size()); i++)
+  {
+    for(int j=0; j<int(this->breadcrumbs.at(secondBreadcrumb).size()); j++)
+    {
+      auto posFirstBreadcrumb = this->breadcrumbs.at(firstBreadcrumb)[i];
+      auto posSecondBreadcrumb = this->breadcrumbs.at(secondBreadcrumb)[j];
+
+      // Compare distance between this set of breadcrumbs
+      if (posFirstBreadcrumb.Distance(posSecondBreadcrumb) < distanceFirstHop)
+        distanceFirstHop = posFirstBreadcrumb.Distance(posSecondBreadcrumb);
+    }
+  }
+  
+  // Examine minimum single hop inside of each tile (if necessary) to determine if it is greater than the minimum hop between tiles
+  double distanceInnerTileHop = std::numeric_limits<double>::max();
+  ignition::math::graph::VertexId breadcrumbs[2] = {firstBreadcrumb, secondBreadcrumb};
+  for (int k=0; k<2; k++)
+    if(this->breadcrumbs.at(breadcrumbs[k]).size() > 1)
+      for(int i=0; i<int(this->breadcrumbs.at(breadcrumbs[k]).size())-1; i++)
+        for(int j=i+1; j<int(this->breadcrumbs.at(breadcrumbs[k]).size()); j++)
+        {
+          auto posFirstBreadcrumb = this->breadcrumbs.at(breadcrumbs[k])[i];
+          auto posSecondBreadcrumb = this->breadcrumbs.at(breadcrumbs[k])[j];
+          
+          // Compare distance between this set of breadcrumbs
+          if (posFirstBreadcrumb.Distance(posSecondBreadcrumb) < distanceInnerTileHop)
+            distanceInnerTileHop = posFirstBreadcrumb.Distance(posSecondBreadcrumb);
+        }
+  
+  // Only perform this check if there exists breadcrumbs inside of a tile
+  if(distanceInnerTileHop < std::numeric_limits<double>::max()-1.0)
+    distanceFirstHop = std::max(distanceFirstHop, distanceInnerTileHop);
 
   // Max distance from the second breadcrumb to the destination.
   double distanceNextHops = 0;
