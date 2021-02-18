@@ -31,6 +31,11 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Cave Starting Area Type B</uri>
     </include>
 
+    <include>
+      <name>fog</name>
+      <pose>106.792000 -165.851000 1.907780 0 0 -2.020400</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/fog emitter</uri>
+    </include>
 
     <!-- The base station -->
     <include>
