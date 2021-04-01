@@ -69,7 +69,7 @@ I rounded down to 9000 seconds as that was the calculated result from endurance 
 ## Diversions from Physical Hardware of Allie
 Fisheye cameras are not modeled, so 4 cameras were used for simulation in place of the two fisheye cameras on the physical robot.
 
-# <a name="validation_links"></a>Allie Validation and Specification Links
+## Allie Validation and Specification Links
 
 * VLP-16 LIDAR -  https://www.mapix.com/wp-content/uploads/2018/07/63-9229_Rev-H_Puck-_Datasheet_Web-1.pdf
 * Memsense MS-IMU3025 - https://www.memsense.com/products/ms-imu3025
